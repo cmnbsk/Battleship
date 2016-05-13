@@ -16,7 +16,10 @@ public class Board {
 		}
 		else	return 0;		
 	}
-				
+	
+	
+	//DO POPRAWY!!! jeœli uderzymy trójmasztowca w œrodek to po uderzeniu 
+		//w jedn¹ z pozosta³ych czêsci funcja zwróci true
 	private boolean isShipDestroyed(int x, int y){	//true-zatopiony false-niezatopiony
 		if(board[x-1][y+1]==true || board[x-1][y]==true || board[x-1][y+1]==true 
 				|| board[x][y+1]==true || board[x][y-1]==true ||
@@ -49,7 +52,18 @@ public class Board {
 			for(int i=firstX; i<=lastX; i++)
 								board[i][firstY]=true;
 		}
-		else System.out.println("Ship can not be situated diagonally!");		
+		else System.out.println("Ship can not be created diagonally!");		
+	}
+	
+	public void printBoardStdOut(){
+		for(int i=0; i<10; i++){
+			for(int j=0; j<10; j++){
+				if(board[j][i]==true)
+					System.out.print("X ");
+				else System.out.print("0 ");
+			}
+			System.out.println("");
+		}
 	}
 	
 	
