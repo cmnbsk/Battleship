@@ -1,5 +1,4 @@
 Pomys³y co i jak
 
-1. Jak przechowywaæ informacje o wielkoœci statku
-mo¿e wystarczy zmienna bool która bedzie mówi³a czy statek zosta³ zniszczony
+
 
