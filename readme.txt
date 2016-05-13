@@ -1,1 +1,1 @@
-readme
+Taki ogólny readme bardziej
