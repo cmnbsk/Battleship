@@ -8,7 +8,7 @@ public class Battleship {
 		gracz.addShip(2,2); 		//0<=x,y<=9 !!!!
 		gracz.addShip(9, 9, 9, 6);
 		gracz.addShip(2, 5, 4, 5);
-		gracz.printBoardStdOut();
+		gracz.printBoard();
 		System.out.println();
 		
 		gracz.shoot(2, 2);
@@ -19,7 +19,7 @@ public class Battleship {
 		if(gracz.shoot(4,5)==2)
 			System.out.println("zatopiony");
 		
-		gracz.printBoardStdOut();
+		gracz.printBoard();
 	}
 
 }
