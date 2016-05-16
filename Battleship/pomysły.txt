@@ -1,6 +1,6 @@
 Pomys³y co i jak
 
-Metoda isShipDestroyed() nie dzia³a jak powinna, na razie chyba nie jest potrzebna.
-
 -w addShip trzeba sprawdzac czy nie ma statkow w okolicy
 -zablokowaæ mo¿liwoœæ dodawania statów po pierwszym strzale
+
+-nie mo¿na strzelaæ w to samo miejsce ZROBIONE CHYBA
