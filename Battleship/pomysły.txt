@@ -1,6 +1,8 @@
 Pomys³y co i jak
 
--w addShip trzeba sprawdzac czy nie ma statkow w okolicy
 -zablokowaæ mo¿liwoœæ dodawania statów po pierwszym strzale
 
 -nie mo¿na strzelaæ w to samo miejsce ZROBIONE CHYBA
+
+kurde jak statek jest na rogu to jak algorytm sprawdza czy mo¿na postawiæ statek to wychodzi poza tablice
+

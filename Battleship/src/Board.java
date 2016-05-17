@@ -36,7 +36,7 @@ public class Board {
 		}
 		else if(board[x][y]==0){
 			board[x][y]=2;
-			return 2;
+			return 0;
 		}
 		else return -1;
 	}
@@ -77,39 +77,194 @@ public class Board {
 	}
 	
 	private boolean czyMoznaPostawicStatek(int x, int y){
-		if(board[x-1][y+1]==1 || board[x-1][y]==1 || board[x-1][y-1]==1 
-				|| board[x][y+1]==1 || board[x][y]==1 || board[x][y-1]==1 
-				|| board[x+1][y+1]==1 || board[x+1][y]==1 || board[x+1][y-1]==1)
-			return false;
-		else return true;
+			
+		if(x==0 && y!=0 && y!=9){ //lewa krawedz, bez rogow
+			if(board[x][y+1]==1 || board[x][y]==1 || board[x][y-1]==1 
+					|| board[x+1][y+1]==1 || board[x+1][y]==1 || board[x+1][y-1]==1)
+				return false;
+		}
+		else if(x==0 && y==0){  //lewa górny róg
+			if(board[x][y+1]==1 || board[x][y]==1 
+					|| board[x+1][y+1]==1 || board[x+1][y]==1)
+				return false;
+		}
+		else if(x==0 && y==9){ //lewy dolny róg
+			if(board[x][y-1]==1 || board[x][y]==1 
+					|| board[x+1][y-1]==1 || board[x+1][y]==1)
+				return false;
+		}
+		else if(x==9 && y!=0 && y!=9){ //prawa krawedz bez rogów
+			if(board[x-1][y+1]==1 || board[x-1][y]==1 || board[x-1][y-1]==1 
+					|| board[x][y+1]==1 || board[x][y]==1 || board[x][y-1]==1)
+				return false;
+		}
+		else if(x==9 && y==0){  //prawy górny róg
+			if(board[x][y]==1 || board[x][y+1]==1 
+					|| board[x-1][y]==1 || board[x-1][y+1]==1)
+				return false;
+		}
+		else if(x==9 && y==9){  //prawy dolny róg
+			if(board[x][y]==1 || board[x][y-1]==1 
+					|| board[x-1][y]==1 || board[x-1][y-1]==1)
+				return false;
+		}
+		else if(y==0 && x!=0 && x!=9){  //górna krawedz bez rogów
+			if(board[x-1][y]==1 || board[x][y]==1 || board[x+1][y]==1 
+					|| board[x-1][y+1]==1 || board[x][y+1]==1 || board[x+1][y+1]==1)
+				return false;
+		}
+		else if(y==9 && x!=0 && x!=9){  // dolna krawêdz bez rogów
+			if(board[x-1][y]==1 || board[x][y]==1 || board[x+1][y]==1 
+					|| board[x-1][y-1]==1 || board[x][y-1]==1 || board[x+1][y-1]==1)
+				return false;
+		}		
+		else{
+			if(board[x-1][y+1]==1 || board[x-1][y]==1 || board[x-1][y-1]==1 
+					|| board[x][y+1]==1 || board[x][y]==1 || board[x][y-1]==1 
+					|| board[x+1][y+1]==1 || board[x+1][y]==1 || board[x+1][y-1]==1)
+				return false;			
+		}
+		return true;
 	}
 	
-	private boolean czyMoznaPostawicStatek(int[] coordinates){
+	private boolean czyMoznaPostawicStatek1(int[] coordinates){
 		
-		if(isVertically(coordinates)){
-			int size = coordinates[3]-coordinates[1]+1;
-			for(int i = 0; i<size+2; i++){
-				if(board[coordinates[0]-1][coordinates[1]-1+i]==1)
-					return false;
-				else if(board[coordinates[0]][coordinates[1]-1+i]==1)
-					return false;
-				else if(board[coordinates[0]+1][coordinates[1]-1+i]==1)
-					return false;
+		if(coordinates[0]>0 && coordinates[2]<9 && coordinates[1]>0 && coordinates[3]<9){ //jesli true statek nie jest ustawiony na rogu 
+			if(isVertically(coordinates)){
+				int size = coordinates[3]-coordinates[1]+1;
+				for(int i = 0; i<size+2; i++){
+					if(board[coordinates[0]-1][coordinates[1]-1+i]==1)
+						return false;
+					else if(board[coordinates[0]][coordinates[1]-1+i]==1)
+						return false;
+					else if(board[coordinates[0]+1][coordinates[1]-1+i]==1)
+						return false;
+				}
 			}
-			return true;
+			else{
+				int size = coordinates[2]-coordinates[0]+1;
+				for(int i = 0; i<size+2; i++){
+					if(board[coordinates[0]-1+i][coordinates[1]-1]==1)
+						return false;
+					else if(board[coordinates[0]-1+i][coordinates[1]]==1)
+						return false;
+					else if(board[coordinates[0]-1+i][coordinates[1]+1]==1)
+						return false;
+				}
+			}
 		}
 		else{
-			int size = coordinates[2]-coordinates[0]+1;
-			for(int i = 0; i<size+2; i++){
-				if(board[coordinates[0]-1+i][coordinates[1]-1]==1)
-					return false;
-				else if(board[coordinates[0]-1+i][coordinates[1]]==1)
-					return false;
-				else if(board[coordinates[0]-1+i][coordinates[1]+1]==1)
-					return false;
+			if(coordinates[0]==0 && coordinates[3]>0 && coordinates[3]<9){
+				int size = coordinates[3]-coordinates[1]+1;
+				for(int i = 0; i<size+2; i++){					
+					if(board[coordinates[0]][coordinates[1]-1+i]==1)
+						return false;
+					else if(board[coordinates[0]+1][coordinates[1]-1+i]==1)
+						return false;
+				}
 			}
-			return true;
+			else if(coordinates[0]==9 && coordinates[3]>0 && coordinates[3]<9){
+				int size = coordinates[3]-coordinates[1]+1;
+				for(int i = 0; i<size+2; i++){					
+					if(board[coordinates[0]][coordinates[1]-1+i]==1)
+						return false;
+					else if(board[coordinates[0]-1][coordinates[1]-1+i]==1)
+						return false;
+				}
+			}
+			else if(coordinates[1]==0 && coordinates[2]>0 && coordinates[2]<9){
+				int size = coordinates[2]-coordinates[0]+1;
+				for(int i = 0; i<size+2; i++){
+					if(board[coordinates[0]-1+i][coordinates[1]]==1)
+						return false;
+					else if(board[coordinates[0]-1+i][coordinates[1]+1]==1)
+						return false;
+				}
+			}
+			else if(coordinates[1]==9 && coordinates[2]>0 && coordinates[2]<9){
+				int size = coordinates[2]-coordinates[0]+1;
+				for(int i = 0; i<size+2; i++){
+					if(board[coordinates[0]-1+i][coordinates[1]-1]==1)
+						return false;
+					else if(board[coordinates[0]-1+i][coordinates[1]]==1)
+						return false;
+				}
+			}
+			////// poni¿ej 8 warunkow na rogi (na ka¿dym rogu statek mo¿e byæ poziomo i pionowo)
+			else if(coordinates[0]==0 && coordinates[2]==0 && coordinates[1]==0){ //Left Up Vertical
+				int size = coordinates[3]-coordinates[1]+1;
+				for(int i = 0; i<size+1; i++){					
+					if(board[coordinates[0]][coordinates[1]+i]==1)
+						return false;
+					else if(board[coordinates[0]+1][coordinates[1]+i]==1)
+						return false;
+				}
+			}
+			else if(coordinates[0]==0 && coordinates[2]==0 && coordinates[3]==9){  //L D V
+				int size = coordinates[3]-coordinates[1]+1;
+				for(int i = 0; i<size+1; i++){					
+					if(board[coordinates[0]][coordinates[1]-1+i]==1)
+						return false;
+					else if(board[coordinates[0]+1][coordinates[1]-1+i]==1)
+						return false;
+				}
+			} //TU SKONCZYLEM!!!!!!!!!!!!!!!!!!
+			else if(coordinates[1]==0 && coordinates[2]>0 && coordinates[2]<9){
+				int size = coordinates[2]-coordinates[0]+1;
+				for(int i = 0; i<size+2; i++){
+					if(board[coordinates[0]-1+i][coordinates[1]]==1)
+						return false;
+					else if(board[coordinates[0]-1+i][coordinates[1]+1]==1)
+						return false;
+				}
+			}
+			else if(coordinates[1]==9 && coordinates[2]>0 && coordinates[2]<9){
+				int size = coordinates[2]-coordinates[0]+1;
+				for(int i = 0; i<size+2; i++){
+					if(board[coordinates[0]-1+i][coordinates[1]-1]==1)
+						return false;
+					else if(board[coordinates[0]-1+i][coordinates[1]]==1)
+						return false;
+				}
+			}
+			if(coordinates[0]==0 && coordinates[3]>0 && coordinates[3]<9){
+				int size = coordinates[3]-coordinates[1]+1;
+				for(int i = 0; i<size+2; i++){					
+					if(board[coordinates[0]][coordinates[1]-1+i]==1)
+						return false;
+					else if(board[coordinates[0]+1][coordinates[1]-1+i]==1)
+						return false;
+				}
+			}
+			else if(coordinates[0]==9 && coordinates[3]>0 && coordinates[3]<9){
+				int size = coordinates[3]-coordinates[1]+1;
+				for(int i = 0; i<size+2; i++){					
+					if(board[coordinates[0]][coordinates[1]-1+i]==1)
+						return false;
+					else if(board[coordinates[0]-1][coordinates[1]-1+i]==1)
+						return false;
+				}
+			}
+			else if(coordinates[1]==0 && coordinates[2]>0 && coordinates[2]<9){
+				int size = coordinates[2]-coordinates[0]+1;
+				for(int i = 0; i<size+2; i++){
+					if(board[coordinates[0]-1+i][coordinates[1]]==1)
+						return false;
+					else if(board[coordinates[0]-1+i][coordinates[1]+1]==1)
+						return false;
+				}
+			}
+			else if(coordinates[1]==9 && coordinates[2]>0 && coordinates[2]<9){
+				int size = coordinates[2]-coordinates[0]+1;
+				for(int i = 0; i<size+2; i++){
+					if(board[coordinates[0]-1+i][coordinates[1]-1]==1)
+						return false;
+					else if(board[coordinates[0]-1+i][coordinates[1]]==1)
+						return false;
+				}
+			}
 		}
+		return true;
 	}
 	
 	
@@ -124,7 +279,7 @@ public class Board {
 //	}
 	
 	public boolean addShip(int x, int y){ //add single ship; true-success, false-failure
-		if(!czyMoznaPostawicStatek(x, y)){
+		if(czyMoznaPostawicStatek(x, y)){
 			Ship.ships.add(new Ship(x, y));
 			//board[x][y]=true; // to sie robi w konstruktorze statku			
 			return true;
@@ -137,7 +292,7 @@ public class Board {
 			
 		int[] coordinates = coordinatesToArray(firstX, firstY, lastX, lastY);
 		
-		if(czyMoznaPostawicStatek(coordinates)){
+		if(czyMoznaPostawicStatek1(coordinates)){
 			if(isVertically(coordinates)){
 				for(int i=coordinates[1]; i<=coordinates[3]; i++)
 					board[coordinates[0]][i]=1;				
@@ -156,7 +311,7 @@ public class Board {
 	public void printBoard(){
 		for(int i=0; i<10; i++){
 			for(int j=0; j<10; j++){
-				System.out.print(board[i][j]+" ");
+				System.out.print(board[j][i]+" ");
 			}
 			System.out.println("");
 		}
