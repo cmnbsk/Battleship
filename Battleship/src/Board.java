@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
-//plansza 10x10 zawieraj¹ca informacje o po³o¿eniu statków
+//plansza 10x10 zawierajÂ¹ca informacje o poÂ³oÂ¿eniu statkÃ³w
 //(false - puste pole, true - pole ze statkiem)
 public class Board {
 	
-	int[][] board;  // 0-nie klikniête, nie ma statku; 
-					//1 - nie klikniête, jest statek; 
-					//2-klikniête, pud³o; 
-					//3-klikniête, trafiony
+	int[][] board;  // 0-nie klikniÃªte, nie ma statku; 
+					//1 - nie klikniÃªte, jest statek; 
+					//2-klikniÃªte, pudÂ³o; 
+					//3-klikniÃªte, trafiony
 	
 	
 	Board(){		
@@ -26,7 +26,7 @@ public class Board {
 //		else return false;
 //	} 
 	
-	public int shoot(int x, int y){			//-1: pole by³o klikniête!; 0: pud³o, 1: tylko trafiony, 2: trafiony i zatopiony
+	public int shoot(int x, int y){			//-1: pole byÂ³o klikniÃªte!; 0: pudÂ³o, 1: tylko trafiony, 2: trafiony i zatopiony
 		if(board[x][y]==1){
 			board[x][y]=3;
 			Ship s = Ship.findShip(x, y);
@@ -53,14 +53,14 @@ public class Board {
 		
 		int[] coordinates = {x1,y1,x2,y2};
 		
-		if(x1>x2){  		//sortowanie wspo³rzêdnych X
+		if(x1>x2){  		//sortowanie wspoÂ³rzÃªdnych X
 			int temp = x1;
 			x1 = x2;
 			x2 = temp;
 			coordinates[0]=x1;
 			coordinates[2]=x2;
 		}
-		if(y1>y2){ 			//sortowanie wspo³rzêdnych Y
+		if(y1>y2){ 			//sortowanie wspoÂ³rzÃªdnych Y
 			int temp = y1;
 			y1 = y2;
 			y2 = temp;
@@ -70,7 +70,7 @@ public class Board {
 		return coordinates;
 	}
 	
-	private boolean isVertically(int[] coordinates){  //zwraca prawde jeœli statek jest pionowo (x1=x2)
+	private boolean isVertically(int[] coordinates){  //zwraca prawde jeÅ“li statek jest pionowo (x1=x2)
 		if(coordinates[0]==coordinates[2])
 			return true;
 		else return false;
@@ -83,37 +83,37 @@ public class Board {
 					|| board[x+1][y+1]==1 || board[x+1][y]==1 || board[x+1][y-1]==1)
 				return false;
 		}
-		else if(x==0 && y==0){  //lewa górny róg
+		else if(x==0 && y==0){  //lewa gÃ³rny rÃ³g
 			if(board[x][y+1]==1 || board[x][y]==1 
 					|| board[x+1][y+1]==1 || board[x+1][y]==1)
 				return false;
 		}
-		else if(x==0 && y==9){ //lewy dolny róg
+		else if(x==0 && y==9){ //lewy dolny rÃ³g
 			if(board[x][y-1]==1 || board[x][y]==1 
 					|| board[x+1][y-1]==1 || board[x+1][y]==1)
 				return false;
 		}
-		else if(x==9 && y!=0 && y!=9){ //prawa krawedz bez rogów
+		else if(x==9 && y!=0 && y!=9){ //prawa krawedz bez rogÃ³w
 			if(board[x-1][y+1]==1 || board[x-1][y]==1 || board[x-1][y-1]==1 
 					|| board[x][y+1]==1 || board[x][y]==1 || board[x][y-1]==1)
 				return false;
 		}
-		else if(x==9 && y==0){  //prawy górny róg
+		else if(x==9 && y==0){  //prawy gÃ³rny rÃ³g
 			if(board[x][y]==1 || board[x][y+1]==1 
 					|| board[x-1][y]==1 || board[x-1][y+1]==1)
 				return false;
 		}
-		else if(x==9 && y==9){  //prawy dolny róg
+		else if(x==9 && y==9){  //prawy dolny rÃ³g
 			if(board[x][y]==1 || board[x][y-1]==1 
 					|| board[x-1][y]==1 || board[x-1][y-1]==1)
 				return false;
 		}
-		else if(y==0 && x!=0 && x!=9){  //górna krawedz bez rogów
+		else if(y==0 && x!=0 && x!=9){  //gÃ³rna krawedz bez rogÃ³w
 			if(board[x-1][y]==1 || board[x][y]==1 || board[x+1][y]==1 
 					|| board[x-1][y+1]==1 || board[x][y+1]==1 || board[x+1][y+1]==1)
 				return false;
 		}
-		else if(y==9 && x!=0 && x!=9){  // dolna krawêdz bez rogów
+		else if(y==9 && x!=0 && x!=9){  // dolna krawÃªdz bez rogÃ³w
 			if(board[x-1][y]==1 || board[x][y]==1 || board[x+1][y]==1 
 					|| board[x-1][y-1]==1 || board[x][y-1]==1 || board[x+1][y-1]==1)
 				return false;
@@ -190,7 +190,7 @@ public class Board {
 						return false;
 				}
 			}
-			////// poni¿ej 8 warunkow na rogi (na ka¿dym rogu statek mo¿e byæ poziomo i pionowo)
+			////// poniÂ¿ej 8 warunkow na rogi (na kaÂ¿dym rogu statek moÂ¿e byÃ¦ poziomo i pionowo)
 			else if(coordinates[0]==0 && coordinates[2]==0 && coordinates[1]==0){ //Left Up Vertical
 				int size = coordinates[3]-coordinates[1]+1;
 				for(int i = 0; i<size+1; i++){					
@@ -206,36 +206,36 @@ public class Board {
 					if(board[coordinates[0]][coordinates[1]-1+i]==1)
 						return false;
 					else if(board[coordinates[0]+1][coordinates[1]-1+i]==1)
-						return false;
-				}
-			} //TU SKONCZYLEM!!!!!!!!!!!!!!!!!!
-			else if(coordinates[1]==0 && coordinates[2]>0 && coordinates[2]<9){
+						return false; } }
+
+
+			else if(coordinates[1]==0 && coordinates[3]==0 && coordinates[0]==0){  //L U H
 				int size = coordinates[2]-coordinates[0]+1;
-				for(int i = 0; i<size+2; i++){
-					if(board[coordinates[0]-1+i][coordinates[1]]==1)
+				for(int i = 0; i<size+1; i++){
+					if(board[coordinates[0]+i][coordinates[1]]==1)
 						return false;
-					else if(board[coordinates[0]-1+i][coordinates[1]+1]==1)
+					else if(board[coordinates[0]+i][coordinates[1]+1]==1)
 						return false;
 				}
 			}
-			else if(coordinates[1]==9 && coordinates[2]>0 && coordinates[2]<9){
+			else if(coordinates[1]==9 && coordinates[3]==9 && coordinates[0]==0){  //L D H
 				int size = coordinates[2]-coordinates[0]+1;
-				for(int i = 0; i<size+2; i++){
-					if(board[coordinates[0]-1+i][coordinates[1]-1]==1)
+				for(int i = 0; i<size+1; i++){
+					if(board[coordinates[0]+i][coordinates[1]]==1)
 						return false;
-					else if(board[coordinates[0]-1+i][coordinates[1]]==1)
+					else if(board[coordinates[0]+i][coordinates[1]-1]==1)
 						return false;
 				}
 			}
-			if(coordinates[0]==0 && coordinates[3]>0 && coordinates[3]<9){
+			if(coordinates[0]==9 && coordinates[2]==9 && coordinates[1]==0){  //P U V
 				int size = coordinates[3]-coordinates[1]+1;
-				for(int i = 0; i<size+2; i++){					
-					if(board[coordinates[0]][coordinates[1]-1+i]==1)
+				for(int i = 0; i<size+1; i++){					
+					if(board[coordinates[0]][coordinates[1]+i]==1)
 						return false;
-					else if(board[coordinates[0]+1][coordinates[1]-1+i]==1)
+					else if(board[coordinates[0]-1][coordinates[1]+i]==1)
 						return false;
 				}
-			}
+			} //TU koniec
 			else if(coordinates[0]==9 && coordinates[3]>0 && coordinates[3]<9){
 				int size = coordinates[3]-coordinates[1]+1;
 				for(int i = 0; i<size+2; i++){					
@@ -268,7 +268,7 @@ public class Board {
 	}
 	
 	
-	//DOKOÑCZYÆ
+	//DOKOÃ‘CZYÃ†
 //	private boolean czyMoznaPostawicKolejnyMaszt(int x, int y, int poprzedniX, int poprzedniY){
 //		
 //		if(board[x-1][y+1]==true || board[x-1][y]==true || board[x-1][y-1]==true 
@@ -287,7 +287,7 @@ public class Board {
 		else return false;
 	}
 	
-	//niedokonczone sprawdzanie, trzeba dokonczyc metode czyMoznaPostawicKolejnyMaszt() i j¹ tu wykorzystac
+	//niedokonczone sprawdzanie, trzeba dokonczyc metode czyMoznaPostawicKolejnyMaszt() i jÂ¹ tu wykorzystac
 	public boolean addShip(int firstX, int firstY, int lastX, int lastY){  //add multiple ship; true-success, false-failure
 			
 		int[] coordinates = coordinatesToArray(firstX, firstY, lastX, lastY);
