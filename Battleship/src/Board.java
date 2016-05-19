@@ -24,12 +24,33 @@ public class Board {
 		if(board[x][y]==1){
 			board[x][y]=3;
 			Ship s = Ship.findShip(x, y);
-			if(s!=null){
+			try{
 				s.size--;
-				if(s.isDestroyed()) return 2;
+				if(s.isDestroyed()){
+					int[] crd = s.getCoordinates();
+					int[] coordinates = new int[4];
+					coordinates[0]=crd[0];
+					coordinates[1]=crd[1];
+					coordinates[2]=crd[crd.length-2];
+					coordinates[3]=crd[crd.length-1];
+					if(isVertically(coordinates)){
+						for(int i=0; i<crd.length/2; i++){
+							board[coordinates[0]][coordinates[1]+i]=4;
+						}
+					}
+					else{
+						for(int i=0; i<crd.length/2; i++){
+							board[coordinates[0]+i][coordinates[1]]=4;
+						}
+					}
+					return 2;
+				}
 				else return 1;
 			}
-			else return -1;
+			catch(NullPointerException ex){
+				System.out.println("cos "+ex.getMessage());
+			}
+			return -1;
 		}
 		else if(board[x][y]==0){
 			board[x][y]=2;
@@ -59,7 +80,7 @@ public class Board {
 		return coordinates;
 	}
 	
-	protected boolean isVertically(int[] coordinates){  //zwraca prawde jesli statek jest pionowo (x1=x2)
+	public static boolean isVertically(int[] coordinates){  //zwraca prawde jesli statek jest pionowo (x1=x2)
 		if(coordinates[0]==coordinates[2])
 			return true;
 		else return false;
@@ -140,37 +161,70 @@ public class Board {
 			}
 		}
 		else{
-			//4 warunki na statki postawione przy scianach, ale nie na rogach
-			if(coordinates[0]==0 && coordinates[3]>0 && coordinates[3]<9){
-				for(int i = 0; i<sizeV+2; i++){					
-					if(board[coordinates[0]][coordinates[1]-1+i]==1
-							|| board[coordinates[0]+1][coordinates[1]-1+i]==1)
-						return false;
+			//4 warunki na statki postawione przy scianach, ale nie na rogach //NAPRAWIC TO 
+			if(isVertically(coordinates)){
+				if(coordinates[0]==0 && coordinates[1]>0 && coordinates[3]<9){
+					for(int i = 0; i<sizeV+2; i++){					
+						if(board[coordinates[0]][coordinates[1]-1+i]==1
+								|| board[coordinates[0]+1][coordinates[1]-1+i]==1)
+							return false;
+					}
+				}
+				else if(coordinates[2]==9 && coordinates[1]>0 && coordinates[3]<9){
+					for(int i = 0; i<sizeV+2; i++){					
+						if(board[coordinates[0]][coordinates[1]-1+i]==1
+								|| board[coordinates[0]-1][coordinates[1]-1+i]==1)
+							return false;
+					}
+				}
+				else if(coordinates[1]==0 && coordinates[0]>0 && coordinates[2]<9){
+					for(int i = 0; i<sizeH+2; i++){
+						if(board[coordinates[0]-1+i][coordinates[1]]==1
+								|| board[coordinates[0]-1+i][coordinates[1]+1]==1)
+							return false;
+					}
+				}
+				else if(coordinates[3]==9 && coordinates[0]>0 && coordinates[2]<9){
+					for(int i = 0; i<sizeH+2; i++){
+						if(board[coordinates[0]-1+i][coordinates[1]-1]==1
+								|| board[coordinates[0]-1+i][coordinates[1]]==1)
+							return false;
+					}
 				}
 			}
-			else if(coordinates[0]==9 && coordinates[3]>0 && coordinates[3]<9){
-				for(int i = 0; i<sizeV+2; i++){					
-					if(board[coordinates[0]][coordinates[1]-1+i]==1
-							|| board[coordinates[0]-1][coordinates[1]-1+i]==1)
-						return false;
+			else{
+				if(coordinates[0]==0 && coordinates[1]>0 && coordinates[3]<9){
+					for(int i = 0; i<sizeV+2; i++){					
+						if(board[coordinates[0]][coordinates[1]-1+i]==1
+								|| board[coordinates[0]+1][coordinates[1]-1+i]==1)
+							return false;
+					}
+				}
+				else if(coordinates[2]==9 && coordinates[1]>0 && coordinates[3]<9){
+					for(int i = 0; i<sizeV+2; i++){					
+						if(board[coordinates[0]][coordinates[1]-1+i]==1
+								|| board[coordinates[0]-1][coordinates[1]-1+i]==1)
+							return false;
+					}
+				}
+				else if(coordinates[1]==0 && coordinates[0]>0 && coordinates[2]<9){
+					for(int i = 0; i<sizeH+2; i++){
+						if(board[coordinates[0]-1+i][coordinates[1]]==1
+								|| board[coordinates[0]-1+i][coordinates[1]+1]==1)
+							return false;
+					}
+				}
+				else if(coordinates[3]==9 && coordinates[0]>0 && coordinates[2]<9){
+					for(int i = 0; i<sizeH+2; i++){
+						if(board[coordinates[0]-1+i][coordinates[1]-1]==1
+								|| board[coordinates[0]-1+i][coordinates[1]]==1)
+							return false;
+					}
 				}
 			}
-			else if(coordinates[1]==0 && coordinates[2]>0 && coordinates[2]<9){
-				for(int i = 0; i<sizeH+2; i++){
-					if(board[coordinates[0]-1+i][coordinates[1]]==1
-							|| board[coordinates[0]-1+i][coordinates[1]+1]==1)
-						return false;
-				}
-			}
-			else if(coordinates[1]==9 && coordinates[2]>0 && coordinates[2]<9){
-				for(int i = 0; i<sizeH+2; i++){
-					if(board[coordinates[0]-1+i][coordinates[1]-1]==1
-							|| board[coordinates[0]-1+i][coordinates[1]]==1)
-						return false;
-				}
-			}
+		
 			////// ponizej 8 warunkow na rogi (na kazdym rogu statek moze byc poziomo i pionowo)
-			else if(coordinates[0]==0 && coordinates[2]==0 && coordinates[1]==0){ //Left Up Vertical
+			if(coordinates[0]==0 && coordinates[2]==0 && coordinates[1]==0){ //Left Up Vertical
 				for(int i = 0; i<sizeV+1; i++){					
 					if(board[coordinates[0]][coordinates[1]+i]==1
 							|| board[coordinates[0]+1][coordinates[1]+i]==1)
@@ -231,25 +285,36 @@ public class Board {
 	}
 		
 	public boolean addShip(int x, int y){ //add single ship; true-success, false-failure
-		if(czyMoznaPostawicStatek(x, y)){
+		if(x<0 || x>9 || y<0 || y>9)
+			return false;
+		else if(czyMoznaPostawicStatek(x, y)){
 			Ship.ships.add(new Ship(x, y));
-			//board[x][y]=true; // to sie robi w konstruktorze statku			
+			board[x][y]=1;		
 			return true;
 		}
 		else return false;
 	}
 	
 	public boolean addShip(int firstX, int firstY, int lastX, int lastY){  //add multiple ship; true-success, false-failure
-			
+		
+		if(firstX<0 || firstX>9 || lastX<0 || lastX>9 || firstY<0 || firstY>9 || lastY<0 || lastY>9)
+			return false;
+		
 		int[] coordinates = coordinatesToArray(firstX, firstY, lastX, lastY);
 		
 		if(czyMoznaPostawicStatek(coordinates)){
 			if(isVertically(coordinates)){
+				int size=coordinates[3]-coordinates[1]+1;
 				Ship.ships.add(new Ship(coordinates));
+				for(int i=0; i<size; i++)
+					board[coordinates[0]][coordinates[1]+i]=1;
 				return true;
 			}
 			else{
+				int size=coordinates[2]-coordinates[0]+1;
 				Ship.ships.add(new Ship(coordinates));
+				for(int i=0; i<size; i++)
+					board[coordinates[0]+i][coordinates[1]]=1;
 				return true;
 			}
 		}
