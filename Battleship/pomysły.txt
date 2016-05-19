@@ -4,5 +4,6 @@ Pomys³y co i jak
 
 -nie mo¿na strzelaæ w to samo miejsce ZROBIONE CHYBA
 
-kurde jak statek jest na rogu to jak algorytm sprawdza czy mo¿na postawiæ statek to wychodzi poza tablice
-
+Funkcja findShip szuka statku po jednej wspó³rzêdnej
+	a statek wielomasztowy musi miec tych wspolrzêdnych kilka ¿eby móc znalezc kazda jego czesc
+mo¿e funkcja findShip powinna szukaæ pocz¹tku statku i dopiero wtedy przeszukiwac kolejkê po id

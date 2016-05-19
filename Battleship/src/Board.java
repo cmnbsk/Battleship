@@ -24,9 +24,12 @@ public class Board {
 		if(board[x][y]==1){
 			board[x][y]=3;
 			Ship s = Ship.findShip(x, y);
-			s.size--;
-			if(s.isDestroyed()) return 2;			
-			else 				return 1;			
+			if(s!=null){
+				s.size--;
+				if(s.isDestroyed()) return 2;
+				else return 1;
+			}
+			else return -1;
 		}
 		else if(board[x][y]==0){
 			board[x][y]=2;
@@ -56,7 +59,7 @@ public class Board {
 		return coordinates;
 	}
 	
-	private boolean isVertically(int[] coordinates){  //zwraca prawde jesli statek jest pionowo (x1=x2)
+	protected boolean isVertically(int[] coordinates){  //zwraca prawde jesli statek jest pionowo (x1=x2)
 		if(coordinates[0]==coordinates[2])
 			return true;
 		else return false;
@@ -242,13 +245,11 @@ public class Board {
 		
 		if(czyMoznaPostawicStatek(coordinates)){
 			if(isVertically(coordinates)){
-				for(int i=coordinates[1]; i<=coordinates[3]; i++)
-					board[coordinates[0]][i]=1;				
+				Ship.ships.add(new Ship(coordinates));
 				return true;
 			}
 			else{
-				for(int i=coordinates[0]; i<=coordinates[2]; i++)
-					board[i][coordinates[1]]=1;
+				Ship.ships.add(new Ship(coordinates));
 				return true;
 			}
 		}

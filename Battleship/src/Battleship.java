@@ -12,12 +12,13 @@ public class Battleship {
 		System.out.println();
 		
 		gracz.shoot(2, 2);
-		if(gracz.shoot(9,9)==1)
+		System.out.println("pud³o");
 			System.out.println("trafiony");
 		if(gracz.shoot(5,0)==0)
 			System.out.println("pud³o");
 		if(gracz.shoot(4,5)==2)
 			System.out.println("zatopiony");
+		gracz.shoot(0, 9);
 		
 		gracz.printBoard();
 	}
