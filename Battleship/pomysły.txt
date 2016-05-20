@@ -1,5 +1,3 @@
 Pomys³y co i jak
 
 -zablokowaæ mo¿liwoœæ dodawania statów po pierwszym strzale
-
-dodatkowe 4 warunki, od œcian statki mog¹ byc pinowo lub poziomo
