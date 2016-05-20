@@ -1,31 +1,59 @@
-//statki!!!! fun 
+import java.util.ArrayList;
 
-//Jak bedzie przechowywana informacja o stanie pojedynczych czêœci statków?
-//Jest zmienna, która przechowuje informacje o ogólnym stanie statku (is_destroyed),
-//ale jak za³atwiæ niszczenie poszczególnych czêœci?
-//Mamy te¿ plansze która pokazuje na których polach s¹ statki 
-//(mo¿e by j¹ rozbudowaæ, ¿eby przechowywa³a te¿ ich stan)
-
-
-public class Ship {
+public class Ship{
 	
-	int size;  //size of ship
-	boolean is_horizontal;  //true: ship horizontal, false: ship vertical
-	boolean is_destroyed;
+	int size;
+	int[] ship_id;  //[0] - X  [1] -Y
+	static ArrayList<Ship> ships;
 	
-	Ship(int size, int x, int y){
-		this.size=size;
-//		this.x=x;
-//		this.y=y;
-		is_destroyed=false;
+	Ship(int x, int y){
+		this.size=1;
+		//board[x][y]=1;
+		ship_id = new int [2];
+		ship_id[0]=x;
+		ship_id[1]=y;
+	}
+
+	Ship(int[] coordinates){
+		if(Board.isVertically(coordinates)){
+			size=coordinates[3]-coordinates[1]+1;
+			ship_id = new int [size*2];	
+			int j=0;
+			for(int i=0; i<size*2; i+=2){
+				ship_id[i]=coordinates[0];
+				ship_id[i+1]=coordinates[1]+j;
+				j++;
+			}
+		}
+		else{
+			size=coordinates[2]-coordinates[0]+1;
+			ship_id = new int [size*2];
+			int j=0;
+			for(int i=0; i<size*2; i+=2){				
+				ship_id[i]=coordinates[0]+j;
+				ship_id[i+1]=coordinates[1];
+				j++;
+			} 
+		}
 	}
 	
-	public boolean isDestroyed(){
-		return is_destroyed;
+	boolean isDestroyed(){
+		if(size>0)
+			return false;
+		else return true;		
 	}
 	
-	void trafiony(){
-		size--;
-		
+	public int[] getCoordinates(){
+		return ship_id;
+	}
+	
+	static Ship findShip(int x, int y){		
+		for( Ship s : ships){
+			for (int i=0; i < s.ship_id.length; i+=2){
+				if(s.ship_id[i]==x && s.ship_id[i+1]==y)
+					return s;
+			}
+		}
+		return null;
 	}
 }
