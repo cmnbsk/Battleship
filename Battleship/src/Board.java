@@ -8,6 +8,7 @@ public class Board {
 					//1 -nie klikniete, jest statek; 
 					//2 -klikniete, bylo pudlo; 
 					//3 -klikniete, byl trafiony
+	private static boolean startGame = false;
 	static final int maxSizeOfShip = 4;
 	
 	
@@ -21,8 +22,18 @@ public class Board {
 		Ship.ships = new ArrayList<Ship>();
 	}
 	
-	public int shoot(int x, int y){			//-1: pole bylo klikniete!; 0: pudlo, 1: tylko trafiony, 2: trafiony i zatopiony
-		if(board[x][y]==1){
+	static void startGame(){
+		startGame=true;
+	}
+	
+	static boolean isGameStarted(){
+		return startGame;
+	}
+	
+	public int shoot(int x, int y){			//-1: blad; 0: pudlo, 1: tylko trafiony, 2: trafiony i zatopiony
+		if(!isGameStarted())
+			return -1;
+		else if(board[x][y]==1){
 			board[x][y]=3;
 			Ship s = Ship.findShip(x, y);
 			try{
@@ -49,7 +60,7 @@ public class Board {
 				else return 1;
 			}
 			catch(NullPointerException ex){
-				System.out.println("cos "+ex.getMessage());
+				System.out.println("Nie znaleziono statku! Ten blad nie powinien wystapic: "+ex.getMessage());
 			}
 			return -1;
 		}
@@ -60,7 +71,7 @@ public class Board {
 		else return -1;
 	}
 	
-	private int[] coordinatesToArray(int x1, int y1, int x2, int y2){
+	static private int[] coordinatesToArray(int x1, int y1, int x2, int y2){
 		
 		int[] coordinates = {x1,y1,x2,y2};
 		
@@ -81,7 +92,7 @@ public class Board {
 		return coordinates;
 	}
 	
-	public static boolean isVertically(int[] coordinates){  //zwraca prawde jesli statek jest pionowo (x1=x2)
+	static boolean isVertically(int[] coordinates){  //zwraca prawde jesli statek jest pionowo (x1=x2)
 		if(coordinates[0]==coordinates[2])
 			return true;
 		else return false;
@@ -143,10 +154,9 @@ public class Board {
 		int sizeH = coordinates[2]-coordinates[0]+1;  //size if Horizontal
 		int sizeV = coordinates[3]-coordinates[1]+1;  //size if Vertical
 		
-		if(sizeH>maxSizeOfShip || sizeV>maxSizeOfShip)
-			return false;
-		
-		else if(coordinates[0]!=coordinates[2] && coordinates[1]!=coordinates[3])
+		if((coordinates[0]!=coordinates[2] && coordinates[1]!=coordinates[3]) 
+				|| sizeH>maxSizeOfShip || sizeV>maxSizeOfShip
+				|| sizeH<1 || sizeV<1)
 			return false;
 		
 		else if(isVertically(coordinates)){  //for vertically ships
@@ -289,7 +299,7 @@ public class Board {
 	}
 		
 	public boolean addShip(int x, int y){ //add single ship; true-success, false-failure
-		if(x<0 || x>9 || y<0 || y>9)
+		if(x<0 || x>9 || y<0 || y>9 || isGameStarted())
 			return false;
 		else if(czyMoznaPostawicStatek(x, y)){
 			Ship.ships.add(new Ship(x, y));
@@ -302,7 +312,7 @@ public class Board {
 	
 	public boolean addShip(int firstX, int firstY, int lastX, int lastY){  //add multiple ship; true-success, false-failure
 		
-		if(firstX<0 || firstX>9 || lastX<0 || lastX>9 || firstY<0 || firstY>9 || lastY<0 || lastY>9)
+		if(firstX<0 || firstX>9 || lastX<0 || lastX>9 || firstY<0 || firstY>9 || lastY<0 || lastY>9 || isGameStarted())
 			return false;
 		
 		int[] coordinates = coordinatesToArray(firstX, firstY, lastX, lastY);

@@ -8,45 +8,12 @@ public class AI_randomGenerator {
 		generator = new Random();
 	}
 		
-//	public Board generateRandomBoard(Board ai_board, int amountOf_1_mast){
-//		for(int i=0; i<amountOf_1_mast; i++){
-//			while(!ai_board.addShip(generator.nextInt(10), generator.nextInt(10)));
-//		}
-//		
-//		return ai_board;
-//	}
-//	
-//	public Board generateRandomBoard(Board ai_board, int amountOf_1_mast, int amountOf_2_mast){
-//		for(int i=0; i<amountOf_1_mast; i++){
-//			while(!ai_board.addShip(generator.nextInt(10), generator.nextInt(10)));
-//		}
-//		for(int i=0; i<amountOf_2_mast; i++){
-//			while(!ai_board.addShip(generator.nextInt(10), generator.nextInt(10), generator.nextInt(10), generator.nextInt(10)));
-//		}		
-//		
-//		return ai_board;
-//	}
-//	
-//	public Board generateRandomBoard(Board ai_board, int amountOf_1_mast, int amountOf_2_mast, int amountOf_3_mast){
-//		for(int i=0; i<amountOf_1_mast; i++){
-//			while(!ai_board.addShip(generator.nextInt(10), generator.nextInt(10)));
-//		}
-//		for(int i=0; i<amountOf_2_mast; i++){
-//			while(!ai_board.addShip(generator.nextInt(10), generator.nextInt(10), generator.nextInt(10), generator.nextInt(10)));
-//		}
-//		for(int i=0; i<amountOf_3_mast; i++){
-//			while(!ai_board.addShip(generator.nextInt(10), generator.nextInt(10), generator.nextInt(10), generator.nextInt(10)));
-//		}		
-//		
-//		return ai_board;
-//	}
-	
-	public Board generateRandomBoard(Board ai_board, int amountOf_1_mast, int amountOf_2_mast, int amountOf_3_mast, int amountOf_4_mast){
+	public Board getRandomBoard(Board board, int amountOf_1_mast, int amountOf_2_mast, int amountOf_3_mast, int amountOf_4_mast){
 		boolean isSuccess=false;
 		int firstX,firstY;
 		boolean verticalShip;
 		for(int i=0; i<amountOf_1_mast; i++){
-			while(!ai_board.addShip(generator.nextInt(10), generator.nextInt(10)));
+			while(!board.addShip(generator.nextInt(10), generator.nextInt(10)));
 		}
 		for(int i=0; i<amountOf_2_mast; i++){
 			isSuccess=false;
@@ -55,11 +22,11 @@ public class AI_randomGenerator {
 				firstY=generator.nextInt(10);
 				verticalShip=generator.nextBoolean();   //true-ship vertical  false-ship horizontal
 				if(verticalShip){
-					if(ai_board.addShip(firstX, firstY, firstX, firstY+1))
+					if(board.addShip(firstX, firstY, firstX, firstY+1))
 						isSuccess=true;
 				}
 				else{
-					if(ai_board.addShip(firstX, firstY, firstX+1, firstY))
+					if(board.addShip(firstX, firstY, firstX+1, firstY))
 						isSuccess=true;
 				}
 			}
@@ -71,11 +38,11 @@ public class AI_randomGenerator {
 				firstY=generator.nextInt(10);
 				verticalShip=generator.nextBoolean();   //true-ship vertical  false-ship horizontal
 				if(verticalShip){
-					if(ai_board.addShip(firstX, firstY, firstX, firstY+2))
+					if(board.addShip(firstX, firstY, firstX, firstY+2))
 						isSuccess=true;
 				}
 				else{
-					if(ai_board.addShip(firstX, firstY, firstX+2, firstY))
+					if(board.addShip(firstX, firstY, firstX+2, firstY))
 						isSuccess=true;
 				}
 			}
@@ -87,16 +54,23 @@ public class AI_randomGenerator {
 				firstY=generator.nextInt(10);
 				verticalShip=generator.nextBoolean();   //true-ship vertical  false-ship horizontal
 				if(verticalShip){
-					if(ai_board.addShip(firstX, firstY, firstX, firstY+3))
+					if(board.addShip(firstX, firstY, firstX, firstY+3))
 						isSuccess=true;
 				}
 				else{
-					if(ai_board.addShip(firstX, firstY, firstX+3, firstY))
+					if(board.addShip(firstX, firstY, firstX+3, firstY))
 						isSuccess=true;
 				}
 			}
 		}
 		
-		return ai_board;
+		return board;
 	}
+
+	public int getRandomShoot(){
+		return generator.nextInt(10);
+	}
+
+
 }
+
