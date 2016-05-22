@@ -7,8 +7,7 @@ public class Ship{
 	static ArrayList<Ship> ships;
 	
 	Ship(int x, int y){
-		this.size=1;
-		//board[x][y]=1;
+		size=1;		
 		ship_id = new int [2];
 		ship_id[0]=x;
 		ship_id[1]=y;

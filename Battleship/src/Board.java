@@ -36,26 +36,34 @@ public class Board {
 		else if(board[x][y]==1){
 			board[x][y]=3;
 			Ship s = Ship.findShip(x, y);
+			if(s==null){
+				System.out.println("*******************************");
+				System.out.println("FATAL ERROR, FIX IT IMMEDIATELY");
+			}
 			try{
 				s.size--;
 				if(s.isDestroyed()){
 					int[] crd = s.getCoordinates();
-					int[] coordinates = new int[4];
-					coordinates[0]=crd[0];
-					coordinates[1]=crd[1];
-					coordinates[2]=crd[crd.length-2];
-					coordinates[3]=crd[crd.length-1];
-					if(isVertically(coordinates)){
-						for(int i=0; i<crd.length/2; i++){
-							board[coordinates[0]][coordinates[1]+i]=4;
+					if(crd.length==2){
+						board[crd[0]][crd[1]]=4;
+					}else{
+						int[] coordinates = new int[4];
+						coordinates[0]=crd[0];
+						coordinates[1]=crd[1];
+						coordinates[2]=crd[crd.length-2];
+						coordinates[3]=crd[crd.length-1];
+						if(isVertically(coordinates)){
+							for(int i=0; i<crd.length/2; i++){
+								board[coordinates[0]][coordinates[1]+i]=4;
+							}
 						}
-					}
-					else{
-						for(int i=0; i<crd.length/2; i++){
-							board[coordinates[0]+i][coordinates[1]]=4;
+						else{
+							for(int i=0; i<crd.length/2; i++){
+								board[coordinates[0]+i][coordinates[1]]=4;
+							}
 						}
+						return 2;
 					}
-					return 2;
 				}
 				else return 1;
 			}
