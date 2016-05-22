@@ -8,7 +8,7 @@ public class Board {
 					//1 -nie klikniete, jest statek; 
 					//2 -klikniete, bylo pudlo; 
 					//3 -klikniete, byl trafiony
-	static final int maxSizeOfShip = 9;
+	static final int maxSizeOfShip = 4;
 	
 	
 	Board(){		
@@ -293,7 +293,8 @@ public class Board {
 			return false;
 		else if(czyMoznaPostawicStatek(x, y)){
 			Ship.ships.add(new Ship(x, y));
-			board[x][y]=1;		
+			board[x][y]=1;
+			System.out.println("Dodano statek ("+x+","+y+")");
 			return true;
 		}
 		else return false;
@@ -312,6 +313,7 @@ public class Board {
 				Ship.ships.add(new Ship(coordinates));
 				for(int i=0; i<size; i++)
 					board[coordinates[0]][coordinates[1]+i]=1;
+				System.out.println("Dodano statek ("+firstX+","+firstY+","+lastX+","+lastY+")");
 				return true;
 			}
 			else{
@@ -319,6 +321,7 @@ public class Board {
 				Ship.ships.add(new Ship(coordinates));
 				for(int i=0; i<size; i++)
 					board[coordinates[0]+i][coordinates[1]]=1;
+				System.out.println("Dodano statek ("+firstX+","+firstY+","+lastX+","+lastY+")");
 				return true;
 			}
 		}

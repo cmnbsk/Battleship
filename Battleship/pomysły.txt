@@ -1,3 +1,8 @@
 Pomys³y co i jak
 
 -zablokowaæ mo¿liwoœæ dodawania statów po pierwszym strzale
+
+
+Ai random generator jest bez sensu
+trzeba uniemo¿liwiæ powtórzenia w statkach wielomasztowych
+oraz jakoœ zrobiæ ¿eby te statki by³y rzeczywiœcie wielomasztowe

@@ -27,6 +27,8 @@ public class Battleship {
 		Board komputer = new Board();
 		generator.generateRandomBoard(komputer, 4, 3, 2, 1);
 		komputer.printBoard();
+		
+			
 	}
 
 }
