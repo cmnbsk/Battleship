@@ -43,14 +43,14 @@ public class Board {
 	}
 	
 	public int shoot(int x, int y){			//-1: blad; 0: pudlo, 1: tylko trafiony, 2: trafiony i zatopiony
-		if(!isGameStarted())
+		if(!isGameStarted() || x>9 || x<0 || y>9 || y<0)
 			return -1;
 		else if(board[x][y]==1){
 			board[x][y]=3;
 			checkEmptyFields(x, y);
 			Ship s = Ship.findShip(this, x, y);
 			if(s==null)
-				System.exit(0); // !!!!!
+				System.exit(0); // !!!!!!!
 			s.size--;
 			if(s.isDestroyed()){
 				int[] crd = s.getCoordinates();
@@ -70,6 +70,7 @@ public class Board {
 							board[coordinates[0]+i][coordinates[1]]=4;							
 					}						
 				}
+				ships.remove(s);
 				return 2;
 			}else 
 				return 1;	

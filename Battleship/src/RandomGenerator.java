@@ -1,14 +1,14 @@
 import java.util.Random;
 
-public class AI_randomGenerator {
+public class RandomGenerator {
 	
-	Random generator;
+	private static Random generator = new Random();
 	
-	AI_randomGenerator(){		
-		generator = new Random();
-	}
+//	AI_randomGenerator(){		
+//		generator = new Random();
+//	}
 		
-	public Board getRandomBoard(Board board, int amountOf_1_mast, int amountOf_2_mast, int amountOf_3_mast, int amountOf_4_mast){
+	public static Board getRandomBoard(Board board, int amountOf_1_mast, int amountOf_2_mast, int amountOf_3_mast, int amountOf_4_mast){
 		boolean isSuccess=false;
 		int firstX,firstY;
 		boolean verticalShip;
@@ -67,10 +67,12 @@ public class AI_randomGenerator {
 		return board;
 	}
 
-	public int getRandomShoot(){
+	public static int getRandomShoot(){
 		return generator.nextInt(10);
 	}
-
-
+	
+	public static int getChoice(){
+		return generator.nextInt(4);
+	}
 }
 
