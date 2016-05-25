@@ -24,20 +24,35 @@ public class Battleship {
 		gracz.printBoard();
 		System.out.println("Plansza komputer");
 		komputer.printBoard();
-		
-		for(int i=0; i<99; i++){
-			System.out.println("i = "+i);
-			switch(gracz.shoot(generator.getRandomShoot(), generator.getRandomShoot())){
-				case -1: System.out.println("Gracz: b章d podczas strzalu."); break;
-				case 0: System.out.println("Gracz: pud這."); break;
-				case 1: System.out.println("Gracz: trafiony."); break;
-				case 2: System.out.println("Gracz: trafiony i zatopiony."); break;
+	
+		boolean isSuccess;
+		while(Boolean.logicalAnd(gracz.isMovePossible(),komputer.isMovePossible())){
+			isSuccess = false;
+			while(!isSuccess){				
+				switch(gracz.shoot(generator.getRandomShoot(), generator.getRandomShoot())){
+					case -1: System.out.println("Gracz: b章d podczas strzalu, powtarzam strzal: ");
+							
+															    isSuccess=false; break;
+					case 0: System.out.println("Gracz: pud這.");
+															    isSuccess=true;	break;
+					case 1: System.out.println("Gracz: trafiony."); 
+															    isSuccess=true;	break;
+					case 2: System.out.println("Gracz: trafiony i zatopiony."); 
+																isSuccess=true;	break;
+				}
 			}
-			switch(komputer.shoot(generator.getRandomShoot(), generator.getRandomShoot())){
-				case -1: System.out.println("Komputer: b章d podczas strzalu."); break;
-				case 0: System.out.println("Komputer: pud這."); break;
-				case 1: System.out.println("Komputer: trafiony."); break;
-				case 2: System.out.println("Komputer: trafiony i zatopiony.");break;
+			isSuccess=false;
+			while(!isSuccess){				
+				switch(komputer.shoot(generator.getRandomShoot(), generator.getRandomShoot())){
+					case -1: System.out.println("Komputer: b章d podczas strzalu, powtarzam strzal: ");
+														    isSuccess=false; break;
+					case 0: System.out.println("Komputer: pud這.");
+														    isSuccess=true;	break;
+					case 1: System.out.println("Komputer: trafiony."); 
+														    isSuccess=true;	break;
+					case 2: System.out.println("Komputer: trafiony i zatopiony."); 
+															isSuccess=true;	break;
+				}
 			}
 		}
 		

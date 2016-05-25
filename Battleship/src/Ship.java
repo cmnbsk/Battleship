@@ -1,10 +1,9 @@
-import java.util.ArrayList;
 
 public class Ship{
 	
 	int size;
 	int[] ship_id;  //[0] - X  [1] -Y
-	static ArrayList<Ship> ships;
+	//static ArrayList<Ship> ships;
 	
 	Ship(int x, int y){
 		size=1;		
@@ -46,8 +45,8 @@ public class Ship{
 		return ship_id;
 	}
 	
-	static Ship findShip(int x, int y){		
-		for( Ship s : ships){
+	static Ship findShip(Board board, int x, int y){		
+		for( Ship s : board.ships){
 			for (int i=0; i < s.ship_id.length; i+=2){
 				if(s.ship_id[i]==x && s.ship_id[i+1]==y)
 					return s;

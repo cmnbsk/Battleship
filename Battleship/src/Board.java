@@ -1,15 +1,17 @@
 import java.util.ArrayList;
+import java.util.List;
 
-//plansza 10x10 zawieraj¹ca informacje o po³o¿eniu statków
-//(false - puste pole, true - pole ze statkiem)
+//plansza 10x10 zawierajaca informacje o polozeniu statkow
+
 public class Board {
 	
 	int[][] board;  //0 -nie klikniete, nie ma statku; 
 					//1 -nie klikniete, jest statek; 
-					//2 -klikniete, bylo pudlo; 
+					//2 -klikniete, bylo pudlo lub klikniete przez automat; 
 					//3 -klikniete, byl trafiony
 	private static boolean startGame = false;
 	static final int maxSizeOfShip = 4;
+	List<Ship> ships;
 	
 	
 	Board(){		
@@ -19,7 +21,7 @@ public class Board {
 				board[i][j]=0;
 			}
 		}
-		Ship.ships = new ArrayList<Ship>();
+		ships = new ArrayList<Ship>();
 	}
 	
 	static void startGame(){
@@ -30,53 +32,114 @@ public class Board {
 		return startGame;
 	}
 	
+	public boolean isMovePossible(){
+		for(int i=0; i<10; i++){
+			for(int j=0; j<10; j++){
+				if(board[j][i]==0)
+					return true;
+			}
+		}
+		return false;
+	}
+	
 	public int shoot(int x, int y){			//-1: blad; 0: pudlo, 1: tylko trafiony, 2: trafiony i zatopiony
 		if(!isGameStarted())
 			return -1;
 		else if(board[x][y]==1){
 			board[x][y]=3;
-			Ship s = Ship.findShip(x, y);
-			if(s==null){
-				System.out.println("*******************************");
-				System.out.println("FATAL ERROR, FIX IT IMMEDIATELY");
-			}
-			try{
-				s.size--;
-				if(s.isDestroyed()){
-					int[] crd = s.getCoordinates();
-					if(crd.length==2){
-						board[crd[0]][crd[1]]=4;
+			checkEmptyFields(x, y);
+			Ship s = Ship.findShip(this, x, y);
+			if(s==null)
+				System.exit(0); // !!!!!
+			s.size--;
+			if(s.isDestroyed()){
+				int[] crd = s.getCoordinates();
+				if(crd.length==2){
+					board[crd[0]][crd[1]]=4;
+				}else{
+					int[] coordinates = new int[4];
+					coordinates[0]=crd[0];
+					coordinates[1]=crd[1];
+					coordinates[2]=crd[crd.length-2];
+					coordinates[3]=crd[crd.length-1];
+					if(isVertically(coordinates)){
+						for(int i=0; i<crd.length/2; i++)
+							board[coordinates[0]][coordinates[1]+i]=4;							
 					}else{
-						int[] coordinates = new int[4];
-						coordinates[0]=crd[0];
-						coordinates[1]=crd[1];
-						coordinates[2]=crd[crd.length-2];
-						coordinates[3]=crd[crd.length-1];
-						if(isVertically(coordinates)){
-							for(int i=0; i<crd.length/2; i++){
-								board[coordinates[0]][coordinates[1]+i]=4;
-							}
-						}
-						else{
-							for(int i=0; i<crd.length/2; i++){
-								board[coordinates[0]+i][coordinates[1]]=4;
-							}
-						}
-						return 2;
-					}
+						for(int i=0; i<crd.length/2; i++)
+							board[coordinates[0]+i][coordinates[1]]=4;							
+					}						
 				}
-				else return 1;
-			}
-			catch(NullPointerException ex){
-				System.out.println("Nie znaleziono statku! Ten blad nie powinien wystapic: "+ex.getMessage());
-			}
-			return -1;
-		}
-		else if(board[x][y]==0){
+				return 2;
+			}else 
+				return 1;	
+		}else if(board[x][y]==0){
 			board[x][y]=2;
 			return 0;
+		}else 
+			return -1;
+	}
+
+	private void checkEmptyFields(int x, int y){
+		
+		if(x==0 && y!=0 && y!=9){ //left side, without corners
+			if(board[x][y+1]==0) 	board[x][y+1]=2;
+			if(board[x][y-1]==0) 	board[x][y-1]=2;
+			if(board[x+1][y+1]==0)	board[x+1][y+1]=2;
+			if(board[x+1][y]==0) 	board[x+1][y]=2;
+			if(board[x+1][y-1]==0) 	board[x+1][y-1]=2;
 		}
-		else return -1;
+		else if(x==0 && y==0){  //top left corner
+			if(board[x][y+1]==0) board[x][y+1]=2;
+			if(board[x+1][y+1]==0) board[x+1][y+1]=2;
+			if(board[x+1][y]==0) board[x+1][y]=2;
+		}
+		else if(x==0 && y==9){ //bottom left corner
+			if(board[x][y-1]==0) board[x][y-1]=2;
+			if(board[x+1][y-1]==0) board[x+1][y-1] =2;
+			if(board[x+1][y]==0) board[x+1][y]=2;
+		}
+		else if(x==9 && y!=0 && y!=9){ //right side without corners
+			if(board[x][y+1]==0) 	board[x][y+1]=2;
+			if(board[x][y-1]==0) 	board[x][y-1]=2;
+			if(board[x-1][y+1]==0)	board[x-1][y+1]=2;
+			if(board[x-1][y]==0) 	board[x-1][y]=2;
+			if(board[x-1][y-1]==0) 	board[x-1][y-1]=2;
+		}
+		else if(x==9 && y==0){  //top right corner
+			if(board[x][y+1]==0) 	board[x][y+1]=2;
+			if(board[x-1][y+1]==0)	board[x-1][y+1]=2;
+			if(board[x-1][y]==0) 	board[x-1][y]=2;
+		}
+		else if(x==9 && y==9){  //bottom right corner
+			if(board[x][y-1]==0) 	board[x][y-1]=2;
+			if(board[x-1][y]==0) 	board[x-1][y]=2;
+			if(board[x-1][y-1]==0) 	board[x-1][y-1]=2;
+		}
+		else if(y==0 && x!=0 && x!=9){  //top edge without corners
+			if(board[x-1][y]==0) 	board[x-1][y]=2;
+			if(board[x+1][y]==0) 	board[x+1][y]=2;
+			if(board[x-1][y+1]==0)	board[x-1][y+1]=2;
+			if(board[x][y+1]==0)	board[x][y+1]=2;
+			if(board[x+1][y+1]==0)	board[x+1][y+1]=2;
+		}
+		else if(y==9 && x!=0 && x!=9){  // bottom edge without corners			
+			if(board[x-1][y]==0) 	board[x-1][y]=2;
+			if(board[x+1][y]==0) 	board[x+1][y]=2;
+			if(board[x-1][y-1]==0)	board[x-1][y-1]=2;
+			if(board[x][y-1]==0)	board[x][y-1]=2;
+			if(board[x+1][y-1]==0)	board[x+1][y-1]=2;
+		}		
+		else{
+			if(board[x-1][y]==0) 	board[x-1][y]=2;
+			if(board[x+1][y]==0) 	board[x+1][y]=2;
+			if(board[x-1][y+1]==0)	board[x-1][y+1]=2;
+			if(board[x][y+1]==0)	board[x][y+1]=2;
+			if(board[x+1][y+1]==0) 	board[x+1][y+1]=2;
+			if(board[x-1][y-1]==0)	board[x-1][y-1]=2;
+			if(board[x][y-1]==0)	board[x][y-1]=2;
+			if(board[x+1][y-1]==0) 	board[x+1][y-1]=2;
+		}
 	}
 	
 	static private int[] coordinatesToArray(int x1, int y1, int x2, int y2){
@@ -310,7 +373,7 @@ public class Board {
 		if(x<0 || x>9 || y<0 || y>9 || isGameStarted())
 			return false;
 		else if(czyMoznaPostawicStatek(x, y)){
-			Ship.ships.add(new Ship(x, y));
+			ships.add(new Ship(x, y));
 			board[x][y]=1;
 			System.out.println("Dodano statek ("+x+","+y+")");
 			return true;
@@ -328,7 +391,7 @@ public class Board {
 		if(czyMoznaPostawicStatek(coordinates)){
 			if(isVertically(coordinates)){
 				int size=coordinates[3]-coordinates[1]+1;
-				Ship.ships.add(new Ship(coordinates));
+				ships.add(new Ship(coordinates));
 				for(int i=0; i<size; i++)
 					board[coordinates[0]][coordinates[1]+i]=1;
 				System.out.println("Dodano statek ("+firstX+","+firstY+","+lastX+","+lastY+")");
@@ -336,7 +399,7 @@ public class Board {
 			}
 			else{
 				int size=coordinates[2]-coordinates[0]+1;
-				Ship.ships.add(new Ship(coordinates));
+				ships.add(new Ship(coordinates));
 				for(int i=0; i<size; i++)
 					board[coordinates[0]+i][coordinates[1]]=1;
 				System.out.println("Dodano statek ("+firstX+","+firstY+","+lastX+","+lastY+")");
