@@ -35,7 +35,7 @@ public class Board {
 	public boolean isMovePossible(){
 		for(int i=0; i<10; i++){
 			for(int j=0; j<10; j++){
-				if(board[j][i]==0)
+				if(board[j][i]==0 || board[j][i]==1)
 					return true;
 			}
 		}
