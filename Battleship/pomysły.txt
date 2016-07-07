@@ -1,3 +1,4 @@
 Pomys³y co i jak
 
 Statek po zniszczeniu jest usuwany z kolekcji, trzeba teraz sprawdzac czy ktos zniszczyl wszystkie statki
+3ci strza³ komputera musi mieæ wê¿szy zakres

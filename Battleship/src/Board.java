@@ -9,6 +9,7 @@ public class Board {
 					//1 -nie klikniete, jest statek; 
 					//2 -klikniete, bylo pudlo lub klikniete przez automat; 
 					//3 -klikniete, byl trafiony
+					//4 -klikniete, byl trafiony i zatopiony
 	private static boolean startGame = false;
 	static final int maxSizeOfShip = 4;
 	List<Ship> ships;

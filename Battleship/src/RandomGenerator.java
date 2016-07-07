@@ -3,10 +3,6 @@ import java.util.Random;
 public class RandomGenerator {
 	
 	private static Random generator = new Random();
-	
-//	AI_randomGenerator(){		
-//		generator = new Random();
-//	}
 		
 	public static Board getRandomBoard(Board board, int amountOf_1_mast, int amountOf_2_mast, int amountOf_3_mast, int amountOf_4_mast){
 		boolean isSuccess=false;
