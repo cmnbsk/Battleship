@@ -14,11 +14,10 @@ public class Artificial_intelligence {
 				switch(nextShoot(board)){
 				case -1: isSuccess=false;
 						break;
-				case 0: isLastHit=false; return 0;
+				case 0: isLastHit=true; return 0;
 				case 1: isLastHit=true; return 1;
 				case 2: isLastHit=false; return 2;
 				}
-				return nextShoot(board);
 			}
 		}
 		
@@ -56,7 +55,7 @@ public class Artificial_intelligence {
 							return 0;
 					case 2: isLastHit=false;
 							twoHits=false;
-							return 0;
+							return 2;
 					}
 					switch(board.shoot(lastHit[0], secondHit[1]-1)){
 					case 1: secondHit[1]=secondHit[1]-1;
@@ -66,7 +65,7 @@ public class Artificial_intelligence {
 							return 0;
 					case 2: isLastHit=false;
 							twoHits=false;
-							return 0;
+							return 2;
 					}
 					return -1;
 				}
@@ -79,7 +78,7 @@ public class Artificial_intelligence {
 							return 0;
 					case 2: isLastHit=false;
 							twoHits=false;
-							return 0;
+							return 2;
 					}
 					switch(board.shoot(lastHit[0], secondHit[1]+1)){
 					case 1: secondHit[1]=secondHit[1]+1;
@@ -89,7 +88,7 @@ public class Artificial_intelligence {
 							return 0;
 					case 2: isLastHit=false;
 							twoHits=false;
-							return 0;
+							return 2;
 					}
 					return -1;
 				}
@@ -103,7 +102,7 @@ public class Artificial_intelligence {
 							return 0;
 					case 2: isLastHit=false;
 							twoHits=false;
-							return 0;
+							return 2;
 					}
 					switch(board.shoot(secondHit[0]-1, lastHit[1])){
 					case 1: secondHit[0]=secondHit[0]-1;
@@ -113,7 +112,7 @@ public class Artificial_intelligence {
 							return 0;
 					case 2: isLastHit=false;
 							twoHits=false;
-							return 0;
+							return 2;
 					}
 					return -1;
 				}
@@ -126,7 +125,7 @@ public class Artificial_intelligence {
 							return 0;
 					case 2: isLastHit=false;
 							twoHits=false;
-							return 0;
+							return 2;
 					}
 					switch(board.shoot(secondHit[0]+1, lastHit[1])){
 					case 1: secondHit[0]=secondHit[0]+1;
@@ -136,7 +135,7 @@ public class Artificial_intelligence {
 							return 0;
 					case 2: isLastHit=false;
 							twoHits=false;
-							return 0;
+							return 2;
 					}
 					return -1;
 				}
