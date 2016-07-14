@@ -1,4 +1,12 @@
 Pomys³y co i jak
 
 Statek po zniszczeniu jest usuwany z kolekcji, trzeba teraz sprawdzac czy ktos zniszczyl wszystkie statki
-3ci strza³ komputera musi mieæ wê¿szy zakres
+
+bugi som
+
+bug polega na tym, ¿e gdy komputer zacznie od œrodka statku i rozbije dwa maszty np w dó³,
+to potem szuka nastêpnego masztu wokó³ ostatnio trafionego, zamiast przeskoczyæ na drugi koniec statku
+
+if(twoHits)nigdy nie przechodzi
+
+tak po za tym to ta funkcja sie nie nadaje przez t¹ dziwn¹ losowoœæ na switchach
