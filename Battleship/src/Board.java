@@ -5,10 +5,12 @@ import java.util.List;
 
 public class Board {
 	
-	int[][] board;  //0 -nie klikniete, nie ma statku; 
+	private String name;
+	private int[][] board;  //0 -nie klikniete, nie ma statku; 
 					//1 -nie klikniete, jest statek; 
 					//2 -klikniete, bylo pudlo lub klikniete przez automat; 
 					//3 -klikniete, byl trafiony
+					//4 -klikniete, byl trafiony i zatopiony
 	private static boolean startGame = false;
 	static final int maxSizeOfShip = 4;
 	List<Ship> ships;
@@ -22,6 +24,26 @@ public class Board {
 			}
 		}
 		ships = new ArrayList<Ship>();
+		name = "Default";
+	}
+	
+	Board(String name){		
+		board = new int[10][10];
+		for(int i=0; i<10; i++){
+			for(int j=0; j<10; j++){
+				board[i][j]=0;
+			}
+		}
+		ships = new ArrayList<Ship>();
+		this.name = name;
+	}
+	
+	String getName(){
+		return name;
+	}
+	
+	int[][] getBoard(){
+		return board;
 	}
 	
 	static void startGame(){
@@ -35,27 +57,31 @@ public class Board {
 	public boolean isMovePossible(){
 		for(int i=0; i<10; i++){
 			for(int j=0; j<10; j++){
-				if(board[j][i]==0)
+				if(board[j][i]==0 || board[j][i]==1)
 					return true;
 			}
 		}
 		return false;
 	}
 	
+	boolean isAnyShip(){
+		return !ships.isEmpty();
+	}
+	
 	public int shoot(int x, int y){			//-1: blad; 0: pudlo, 1: tylko trafiony, 2: trafiony i zatopiony
-		if(!isGameStarted())
+		if(!isGameStarted() || x>9 || x<0 || y>9 || y<0)
 			return -1;
 		else if(board[x][y]==1){
 			board[x][y]=3;
-			checkEmptyFields(x, y);
 			Ship s = Ship.findShip(this, x, y);
 			if(s==null)
-				System.exit(0); // !!!!!
+				System.exit(0); // !!!!!!!
 			s.size--;
 			if(s.isDestroyed()){
 				int[] crd = s.getCoordinates();
 				if(crd.length==2){
 					board[crd[0]][crd[1]]=4;
+					checkEmptyFields(crd[0], crd[1]);
 				}else{
 					int[] coordinates = new int[4];
 					coordinates[0]=crd[0];
@@ -63,13 +89,18 @@ public class Board {
 					coordinates[2]=crd[crd.length-2];
 					coordinates[3]=crd[crd.length-1];
 					if(isVertically(coordinates)){
-						for(int i=0; i<crd.length/2; i++)
-							board[coordinates[0]][coordinates[1]+i]=4;							
+						for(int i=0; i<crd.length/2; i++){
+							board[coordinates[0]][coordinates[1]+i]=4;
+							checkEmptyFields(coordinates[0], coordinates[1]+i);
+						}
 					}else{
-						for(int i=0; i<crd.length/2; i++)
-							board[coordinates[0]+i][coordinates[1]]=4;							
+						for(int i=0; i<crd.length/2; i++){
+							board[coordinates[0]+i][coordinates[1]]=4;
+							checkEmptyFields(coordinates[0]+i, coordinates[1]);
+						}
 					}						
 				}
+				ships.remove(s);
 				return 2;
 			}else 
 				return 1;	
